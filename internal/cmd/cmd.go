@@ -10,7 +10,7 @@ import (
 // New returns a new command-line parser.
 func New() (*cobra.Command, error) {
 	cmd := &cobra.Command{
-		Use:           "bl",
+		Use:           "blt",
 		Short:         "Blocklist management tool.",
 		SilenceErrors: true,
 		SilenceUsage:  true,
