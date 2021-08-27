@@ -4,6 +4,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
+	"github.com/loozhengyuan/blt/internal/cmd/build"
 	"github.com/loozhengyuan/blt/internal/cmd/version"
 )
 
@@ -18,6 +19,7 @@ func New() (*cobra.Command, error) {
 			DisableDefaultCmd: true,
 		},
 	}
+	cmd.AddCommand(build.New())
 	cmd.AddCommand(version.New())
 	return cmd, nil
 }
