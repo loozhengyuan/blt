@@ -1,0 +1,59 @@
+name: test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-golang:
+    name: Test on Go ${{ matrix.go }} (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 3
+    strategy:
+      matrix:
+        os:
+          # NOTE: Non-linux systems uses more billable minutes.
+          # Enable them only if they are strictly required.
+          # - windows-latest
+          # - macos-latest
+          - ubuntu-latest
+        go:
+          # - 1.12
+          # - 1.13
+          # - 1.14
+          # - 1.15
+          - 1.16
+          - 1.17
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+
+      - name: Set up Go ${{ matrix.go }}
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Cache Go modules
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Lint code
+        run: |
+          make lint
+
+      - name: Validate code
+        run: |
+          make check
+
+      - name: Run tests
+        run: |
+          make test
