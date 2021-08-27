@@ -1,4 +1,7 @@
 # blt
+
+[![test](https://github.com/loozhengyuan/blt/actions/workflows/test.yml/badge.svg)](https://github.com/loozhengyuan/blt/actions/workflows/test.yml)
+
 Blocklist management tool.
 
 ## Usage
