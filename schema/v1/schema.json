@@ -1,0 +1,109 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/loozhengyuan/blt/blob/main/schema/v1/schema.json",
+    "type": "object",
+    "properties": {
+        "version": {
+            "description": "Version of the configuration schema.",
+            "type": "integer"
+        },
+        "kind": {
+            "description": "Type of blocklist.",
+            "type": "string",
+            "enum": [
+                "ipbl",
+                "dnsbl"
+            ]
+        },
+        "policy": {
+            "description": "Specification of the blocklist.",
+            "type": "object",
+            "properties": {
+                "allow": {
+                    "description": "IPs or FQDNs to allow.",
+                    "type": "object",
+                    "$ref": "#/$defs/policySpec"
+                },
+                "deny": {
+                    "description": "IPs or FQDNs to deny.",
+                    "type": "object",
+                    "$ref": "#/$defs/policySpec"
+                }
+            },
+            "additionalProperties": false
+        },
+        "output": {
+            "description": "Configuration for exporting the blocklist.",
+            "type": "object",
+            "properties": {
+                "destinations": {
+                    "description": "List of output destinations.",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "filePath": {
+                                "description": "File path for output.",
+                                "type": "string"
+                            },
+                            "customTemplate": {
+                                "destination": "Custom template format for output.",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "filePath"
+                        ],
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "required": [
+                "destinations"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "version",
+        "kind",
+        "policy",
+        "output"
+    ],
+    "additionalProperties": false,
+    "$defs": {
+        "policySpec": {
+            "properties": {
+                "items": {
+                    "description": "List of IPs or FQDNs to explictly allow.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "includes": {
+                    "description": "List of external sources to include.",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "description": "Name of the external source.",
+                                "type": "string"
+                            },
+                            "url": {
+                                "description": "URL of the external source.",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "url"
+                        ],
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "additionalProperties": false
+        }
+    }
+}
