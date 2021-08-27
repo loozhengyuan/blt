@@ -10,7 +10,7 @@ import (
 	"github.com/loozhengyuan/blt/internal/build"
 )
 
-const appName = "taxo"
+const appName = "blt"
 
 type options struct {
 	format string
