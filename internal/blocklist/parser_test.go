@@ -2,6 +2,7 @@ package blocklist
 
 import (
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -31,7 +32,11 @@ func TestIPParser_Parse(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to init parser: %v", err)
 			}
-			if g, w := p.ParseString(tc.input), tc.want; !reflect.DeepEqual(g, w) {
+			got, err := p.Parse(strings.NewReader(tc.input))
+			if err != nil {
+				t.Fatalf("failed to parse input: %v", err)
+			}
+			if g, w := got, tc.want; !reflect.DeepEqual(g, w) {
 				t.Errorf("output mismatch:\ngot:\t%#v\nwant:\t%#v", g, w)
 			}
 		})
@@ -60,7 +65,11 @@ func TestFQDNParser_Parse(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to init parser: %v", err)
 			}
-			if g, w := p.ParseString(tc.input), tc.want; !reflect.DeepEqual(g, w) {
+			got, err := p.Parse(strings.NewReader(tc.input))
+			if err != nil {
+				t.Fatalf("failed to parse input: %v", err)
+			}
+			if g, w := got, tc.want; !reflect.DeepEqual(g, w) {
 				t.Errorf("output mismatch:\ngot:\t%#v\nwant:\t%#v", g, w)
 			}
 		})
