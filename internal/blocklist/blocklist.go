@@ -85,6 +85,11 @@ func (bl *Blocklist) LastUpdated() time.Time {
 	return bl.lastUpdated
 }
 
+// Count returns the count of all IPs or FQDNs in the blocklist.
+func (bl *Blocklist) Count() int {
+	return len(bl.Items())
+}
+
 // NewBlocklist returns the pointer to a new Blocklist.
 func NewBlocklist() *Blocklist {
 	return &Blocklist{
