@@ -53,7 +53,7 @@ func TestFQDNParser_Parse(t *testing.T) {
 			want:  nil, // nil response if no match
 		},
 		"ignore_comments": {
-			input: "# google.com",
+			input: "# domain1.tld",
 			want:  nil, // nil response if no match
 		},
 	}
