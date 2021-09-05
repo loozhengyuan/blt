@@ -32,6 +32,23 @@ func New() *cobra.Command {
 				return fmt.Errorf("parse cfg: %w", err)
 			}
 
+			// Derive parser from blocklist type
+			var p blocklist.Parser
+			switch cfg.Kind {
+			case "ipbl":
+				p, err = blocklist.NewIPParser()
+				if err != nil {
+					return fmt.Errorf("new ip parser: %w", err)
+				}
+			case "dnsbl":
+				p, err = blocklist.NewFQDNParser()
+				if err != nil {
+					return fmt.Errorf("new fqdn parser: %w", err)
+				}
+			default:
+				return fmt.Errorf("unknown kind: %v", cfg.Kind)
+			}
+
 			// Build blocklist
 			bl := blocklist.NewBlocklist()
 			if cfg.Policy.Allow.Items != nil {
@@ -39,7 +56,7 @@ func New() *cobra.Command {
 			}
 			if cfg.Policy.Allow.Includes != nil {
 				for _, src := range cfg.Policy.Allow.Includes {
-					ref, err := blocklist.NewURLSource(src.URL)
+					ref, err := blocklist.NewURLSource(src.URL, p)
 					if err != nil {
 						return fmt.Errorf("new url ref: %w", err)
 					}
@@ -53,7 +70,7 @@ func New() *cobra.Command {
 			}
 			if cfg.Policy.Deny.Includes != nil {
 				for _, src := range cfg.Policy.Deny.Includes {
-					ref, err := blocklist.NewURLSource(src.URL)
+					ref, err := blocklist.NewURLSource(src.URL, p)
 					if err != nil {
 						return fmt.Errorf("new url ref: %w", err)
 					}
