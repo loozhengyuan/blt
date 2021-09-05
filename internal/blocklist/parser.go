@@ -10,7 +10,7 @@ import (
 
 const (
 	REGEXP_IP   = `^([^\s]+)`
-	REGEXP_FQDN = `^([^\s]+)`
+	REGEXP_FQDN = `([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}`
 )
 
 // Parser is the interface that returns the list of parsed items.
