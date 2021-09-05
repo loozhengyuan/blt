@@ -15,13 +15,25 @@ func TestIPParser_Parse(t *testing.T) {
 			input: "",
 			want:  nil, // nil response if no match
 		},
-		"ignore_comments_ipv4": {
+		"ignore_comments_line_ipv4": {
 			input: "# 127.0.0.1",
 			want:  nil, // nil response if no match
 		},
-		"ignore_comments_ipv6": {
+		"ignore_comments_line_ipv6": {
 			input: "# ::1",
 			want:  nil, // nil response if no match
+		},
+		"ignore_comments_inline_ipv4": {
+			input: "127.0.0.1 # 127.0.0.1",
+			want: []string{
+				"127.0.0.1",
+			},
+		},
+		"ignore_comments_inline_ipv6": {
+			input: "::1 # ::1",
+			want: []string{
+				"::1",
+			},
 		},
 	}
 	for name, tc := range cases {
@@ -52,9 +64,15 @@ func TestFQDNParser_Parse(t *testing.T) {
 			input: "",
 			want:  nil, // nil response if no match
 		},
-		"ignore_comments": {
+		"ignore_comments_line": {
 			input: "# domain1.tld",
 			want:  nil, // nil response if no match
+		},
+		"ignore_comments_inline": {
+			input: "domain1.tld # domain2.tld",
+			want: []string{
+				"domain1.tld",
+			},
 		},
 	}
 	for name, tc := range cases {
