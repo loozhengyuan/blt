@@ -91,6 +91,18 @@ func TestFQDNParser_Parse(t *testing.T) {
 			input: "",
 			want:  []string{},
 		},
+		"match_fqdn_subdomain": {
+			input: "subdomain.domain.tld",
+			want: []string{
+				"subdomain.domain.tld",
+			},
+		},
+		"match_fqdn_idn": {
+			input: "xn--bcher-kva.example",
+			want: []string{
+				"xn--bcher-kva.example",
+			},
+		},
 		"match_multiline": {
 			input: "domain1.tld\ndomain2.tld",
 			want: []string{
