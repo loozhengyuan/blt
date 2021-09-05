@@ -2,9 +2,7 @@ package blocklist
 
 import (
 	"fmt"
-	"io"
 	"net/http"
-	"regexp"
 )
 
 // Source is the interface that describes an external source.
@@ -17,6 +15,7 @@ type Source interface {
 // URLSource represents an external URL source.
 type URLSource struct {
 	url string
+	p   Parser
 }
 
 var _ Source = (*URLSource)(nil)
@@ -32,19 +31,11 @@ func (r *URLSource) Items() ([]string, error) {
 	if s := resp.StatusCode; s != 200 {
 		return nil, fmt.Errorf("non-200 http response: %v", s)
 	}
-	b, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("read response: %w", err)
-	}
-	p, err := regexp.Compile(`(?m)^([^\s#]+)`)
-	if err != nil {
-		return nil, fmt.Errorf("compile regexp: %w", err)
-	}
-	return p.FindAllString(string(b), -1), nil
+	return r.p.Parse(resp.Body)
 }
 
 // NewURLSource returns the pointer to a new URLSource.
-func NewURLSource(url string) (*URLSource, error) {
+func NewURLSource(url string, p Parser) (*URLSource, error) {
 	return &URLSource{
 		url: url,
 	}, nil
