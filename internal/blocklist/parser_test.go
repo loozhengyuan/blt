@@ -104,6 +104,38 @@ func TestFQDNParser_Parse(t *testing.T) {
 				"domain1.tld",
 			},
 		},
+		"match_simple_multiple": {
+			input: "domain1.tld domain2.tld",
+			want: []string{
+				"domain1.tld",
+				"domain2.tld",
+			},
+		},
+		"match_hosts_single": {
+			input: "127.0.0.1 domain1.tld",
+			want: []string{
+				"domain1.tld",
+			},
+		},
+		"match_hosts_multiple": {
+			input: "127.0.0.1 domain1.tld domain2.tld",
+			want: []string{
+				"domain1.tld",
+				"domain2.tld",
+			},
+		},
+		"match_hosts_ipv4_prefix": {
+			input: "127.0.0.1 domain1.tld",
+			want: []string{
+				"domain1.tld",
+			},
+		},
+		"match_hosts_ipv6_prefix": {
+			input: "::1 domain1.tld",
+			want: []string{
+				"domain1.tld",
+			},
+		},
 		"ignore_comments_line": {
 			input: "# domain1.tld",
 			want:  []string{},
