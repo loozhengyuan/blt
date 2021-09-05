@@ -11,7 +11,7 @@ import (
 
 type V1Spec struct {
 	Version int      `json:"version"`
-	Kind    string   `json:"type"`
+	Kind    string   `json:"kind"`
 	Policy  V1Policy `json:"policy"`
 	Output  V1Output `json:"output"`
 }
