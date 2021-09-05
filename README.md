@@ -1,5 +1,7 @@
 # blt
 
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/loozhengyuan/blt)](https://pkg.go.dev/github.com/loozhengyuan/blt)
+[![Go Report Card](https://goreportcard.com/badge/github.com/loozhengyuan/blt)](https://goreportcard.com/report/github.com/loozhengyuan/blt)
 [![test](https://github.com/loozhengyuan/blt/actions/workflows/test.yml/badge.svg)](https://github.com/loozhengyuan/blt/actions/workflows/test.yml)
 
 Blocklist management tool.
