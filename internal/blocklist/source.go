@@ -38,5 +38,6 @@ func (r *URLSource) Items() ([]string, error) {
 func NewURLSource(url string, p Parser) (*URLSource, error) {
 	return &URLSource{
 		url: url,
+		p:   p,
 	}, nil
 }
