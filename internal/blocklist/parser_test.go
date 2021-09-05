@@ -30,6 +30,18 @@ func TestIPParser_Parse(t *testing.T) {
 				"fd12:3456:789a:1::63",
 			},
 		},
+		"match_simple_single_ipv4": {
+			input: "127.0.0.1",
+			want: []string{
+				"127.0.0.1",
+			},
+		},
+		"match_simple_single_ipv6": {
+			input: "::1",
+			want: []string{
+				"::1",
+			},
+		},
 		"ignore_comments_line_ipv4": {
 			input: "# 127.0.0.1",
 			want:  nil, // nil response if no match
@@ -84,6 +96,12 @@ func TestFQDNParser_Parse(t *testing.T) {
 			want: []string{
 				"domain1.tld",
 				"domain2.tld",
+			},
+		},
+		"match_simple_single": {
+			input: "domain1.tld",
+			want: []string{
+				"domain1.tld",
 			},
 		},
 		"ignore_comments_line": {
