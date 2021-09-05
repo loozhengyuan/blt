@@ -61,12 +61,11 @@ func (bl *Blocklist) DenyFrom(src Source) error {
 	return nil
 }
 
-// Items returns a sorted list of all IPs or FQDNs in the
-// blocklist.
-func (bl *Blocklist) Items() []string {
+// Build generates and returns the pointer to a new Export.
+func (bl *Blocklist) Build() *Export {
 	bl.mu.RLock()
 	defer bl.mu.RUnlock()
-	items := make([]string, 0, len(bl.forbidden))
+	items := make([]string, 0)
 	for k := range bl.forbidden {
 		_, ok := bl.permitted[k]
 		if !ok {
@@ -74,20 +73,10 @@ func (bl *Blocklist) Items() []string {
 		}
 	}
 	sort.Strings(items)
-	return items
-}
-
-// LastUpdated returns the UTC timestamp when the blocklist
-// was last updated.
-func (bl *Blocklist) LastUpdated() time.Time {
-	bl.mu.RLock()
-	defer bl.mu.RUnlock()
-	return bl.lastUpdated
-}
-
-// Count returns the count of all IPs or FQDNs in the blocklist.
-func (bl *Blocklist) Count() int {
-	return len(bl.Items())
+	return &Export{
+		data:      items,
+		timestamp: time.Now().UTC(),
+	}
 }
 
 // NewBlocklist returns the pointer to a new Blocklist.
