@@ -6,6 +6,14 @@
 
 Blocklist management tool.
 
+## Install
+
+### Using `go install`
+
+```shell
+go install github.com/loozhengyuan/blt/cmd/blt@latest
+```
+
 ## Usage
 
 ```console
