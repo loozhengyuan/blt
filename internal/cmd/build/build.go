@@ -32,56 +32,17 @@ func New() *cobra.Command {
 				return fmt.Errorf("parse cfg: %w", err)
 			}
 
-			// Derive parser from blocklist type
-			var p blocklist.Parser
-			switch cfg.Kind {
-			case "ipbl":
-				p, err = blocklist.NewIPParser()
-				if err != nil {
-					return fmt.Errorf("new ip parser: %w", err)
-				}
-			case "dnsbl":
-				p, err = blocklist.NewFQDNParser()
-				if err != nil {
-					return fmt.Errorf("new fqdn parser: %w", err)
-				}
-			default:
-				return fmt.Errorf("unknown kind: %v", cfg.Kind)
+			// Create manifest
+			m, err := blocklist.NewManifestFromV1Spec(cfg)
+			if err != nil {
+				return fmt.Errorf("new manifest from spec: %w", err)
 			}
 
-			// Build blocklist
-			bl := blocklist.NewBlocklist()
-			if cfg.Policy.Allow.Items != nil {
-				bl.Allow(cfg.Policy.Allow.Items...)
+			// Build and export blocklist
+			o, err := m.Build()
+			if err != nil {
+				return fmt.Errorf("build blocklist: %w", err)
 			}
-			if cfg.Policy.Allow.Includes != nil {
-				for _, src := range cfg.Policy.Allow.Includes {
-					ref, err := blocklist.NewURLSource(src.URL, p)
-					if err != nil {
-						return fmt.Errorf("new url ref: %w", err)
-					}
-					if err := bl.AllowFrom(ref); err != nil {
-						return fmt.Errorf("allow from ref: %w", err)
-					}
-				}
-			}
-			if cfg.Policy.Deny.Items != nil {
-				bl.Deny(cfg.Policy.Deny.Items...)
-			}
-			if cfg.Policy.Deny.Includes != nil {
-				for _, src := range cfg.Policy.Deny.Includes {
-					ref, err := blocklist.NewURLSource(src.URL, p)
-					if err != nil {
-						return fmt.Errorf("new url ref: %w", err)
-					}
-					if err := bl.DenyFrom(ref); err != nil {
-						return fmt.Errorf("deny from ref: %w", err)
-					}
-				}
-			}
-
-			// Export blocklist
-			output := bl.Build()
 			if cfg.Output.Destinations != nil {
 				for _, dest := range cfg.Output.Destinations {
 					f, err := os.Create(dest.FilePath)
@@ -95,7 +56,7 @@ func New() *cobra.Command {
 					if err != nil {
 						return fmt.Errorf("parse tmpl: %w", err)
 					}
-					if err := tmpl.Execute(f, output); err != nil {
+					if err := tmpl.Execute(f, o); err != nil {
 						return fmt.Errorf("execute tmpl: %w", err)
 					}
 				}
