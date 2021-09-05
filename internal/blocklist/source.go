@@ -41,3 +41,20 @@ func NewURLSource(url string, p Parser) (*URLSource, error) {
 		p:   p,
 	}, nil
 }
+
+// ListSource represents a simple list implementation of the
+// Source interface.
+type ListSource struct {
+	data []string
+}
+
+var _ Source = (*ListSource)(nil)
+
+func (s *ListSource) Items() ([]string, error) {
+	return s.data, nil
+}
+
+// NewListSource returns the pointer to a new ListSource.
+func NewListSource(data ...string) *ListSource {
+	return &ListSource{data: data}
+}
