@@ -159,6 +159,10 @@ func TestFQDNParser_Parse(t *testing.T) {
 				"domain1.tld",
 			},
 		},
+		"ignore_tld": {
+			input: "localhost",
+			want:  []string{},
+		},
 	}
 	for name, tc := range cases {
 		tc := tc // capture range variable
