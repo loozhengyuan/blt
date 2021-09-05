@@ -13,7 +13,7 @@ func TestIPParser_Parse(t *testing.T) {
 	}{
 		"empty": {
 			input: "",
-			want:  nil, // nil response if no match
+			want:  []string{},
 		},
 		"match_multiline_ipv4": {
 			input: "192.168.1.1\n172.16.1.1\n10.1.1.1",
@@ -44,11 +44,11 @@ func TestIPParser_Parse(t *testing.T) {
 		},
 		"ignore_comments_line_ipv4": {
 			input: "# 127.0.0.1",
-			want:  nil, // nil response if no match
+			want:  []string{},
 		},
 		"ignore_comments_line_ipv6": {
 			input: "# ::1",
-			want:  nil, // nil response if no match
+			want:  []string{},
 		},
 		"ignore_comments_inline_ipv4": {
 			input: "127.0.0.1 # 127.0.0.1",
@@ -89,7 +89,7 @@ func TestFQDNParser_Parse(t *testing.T) {
 	}{
 		"empty": {
 			input: "",
-			want:  nil, // nil response if no match
+			want:  []string{},
 		},
 		"match_multiline": {
 			input: "domain1.tld\ndomain2.tld",
@@ -106,7 +106,7 @@ func TestFQDNParser_Parse(t *testing.T) {
 		},
 		"ignore_comments_line": {
 			input: "# domain1.tld",
-			want:  nil, // nil response if no match
+			want:  []string{},
 		},
 		"ignore_comments_inline": {
 			input: "domain1.tld # domain2.tld",
