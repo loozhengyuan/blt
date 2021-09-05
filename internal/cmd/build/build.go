@@ -80,7 +80,8 @@ func New() *cobra.Command {
 				}
 			}
 
-			// Export config
+			// Export blocklist
+			output := bl.Build()
 			if cfg.Output.Destinations != nil {
 				for _, dest := range cfg.Output.Destinations {
 					f, err := os.Create(dest.FilePath)
@@ -94,7 +95,7 @@ func New() *cobra.Command {
 					if err != nil {
 						return fmt.Errorf("parse tmpl: %w", err)
 					}
-					if err := tmpl.Execute(f, bl); err != nil {
+					if err := tmpl.Execute(f, output); err != nil {
 						return fmt.Errorf("execute tmpl: %w", err)
 					}
 				}
