@@ -71,6 +71,7 @@ func TestIPParser_Parse(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to init parser: %v", err)
 			}
+			t.Logf("input: %#v\n", tc.input)
 			got, err := p.Parse(strings.NewReader(tc.input))
 			if err != nil {
 				t.Fatalf("failed to parse input: %v", err)
@@ -167,6 +168,7 @@ func TestFQDNParser_Parse(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to init parser: %v", err)
 			}
+			t.Logf("input: %#v\n", tc.input)
 			got, err := p.Parse(strings.NewReader(tc.input))
 			if err != nil {
 				t.Fatalf("failed to parse input: %v", err)
