@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/goccy/go-yaml v1.9.2
 	github.com/loozhengyuan/grench v0.7.0
-	github.com/spf13/cobra v1.2.1
+	github.com/spf13/cobra v1.4.0
 )
 
 require (
