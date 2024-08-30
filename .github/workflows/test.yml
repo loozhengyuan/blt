@@ -8,9 +8,15 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    # NOTE: Default option does not include `-o pipefail` as documented
+    # unless explicitly specifying the `bash` shell.
+    # https://github.com/actions/runner/issues/353
+    shell: bash
+
 jobs:
-  test-golang:
-    name: Test on Go ${{ matrix.go }} (${{ matrix.os }})
+  test:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 3
     strategy:
@@ -18,33 +24,27 @@ jobs:
         os:
           # NOTE: Non-linux systems uses more billable minutes.
           # Enable them only if they are strictly required.
-          # - windows-latest
-          # - macos-latest
-          - ubuntu-latest
+          # - "windows-2022"
+          # - "macos-14"
+          - "ubuntu-22.04"
         go:
-          # - 1.12
-          # - 1.13
-          # - 1.14
-          # - 1.15
-          - 1.16
-          - 1.17
+          - "1.16"
+          - "1.17"
+          - "1.18"
+          - "1.19"
+          - "1.20"
+          - "1.21"
+          - "1.22"
+          - "1.23"
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4.1.7
 
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v5.0.2
         with:
           go-version: ${{ matrix.go }}
-
-      - name: Cache Go modules
-        uses: actions/cache@v2
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
 
       - name: Lint code
         run: |
