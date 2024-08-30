@@ -1,17 +1,33 @@
 # Configuration file for GitHub Dependabot
-# https://help.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
 updates:
-  # Maintain dependencies for GitHub Actions
-  - package-ecosystem: "github-actions"
-    # Root directory for GitHub Actions is
-    # the default location of `.github/workflows`
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "monthly"
-  # Maintain dependencies for Go Modules
+      interval: 'weekly'
+      day: 'saturday'
+      time: '09:00'
+      timezone: 'Asia/Singapore'
+    groups:
+      gha:
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
   - package-ecosystem: "gomod"
-    directory: "/"
+    directory: '/'
     schedule:
-      interval: "monthly"
+      interval: 'weekly'
+      day: 'saturday'
+      time: '09:00'
+      timezone: 'Asia/Singapore'
+    groups:
+      gha:
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
