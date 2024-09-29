@@ -1,0 +1,49 @@
+# Configuration for GitHub Repository Settings App
+# https://github.com/repository-settings/app
+
+repository:
+  # Disable unused features
+  has_issues: false
+  has_discussions: false
+  has_projects: false
+  has_wiki: false
+  has_downloads: false
+
+  # Enforce squash commit only
+  allow_merge_commit: false
+  allow_squash_merge: true
+  allow_rebase_merge: false
+
+  # Enable vulnerability alerts and fixes
+  enable_automated_security_fixes: true
+  enable_vulnerability_alerts: true
+
+rulesets:
+  - name: baseline
+    target: branch
+    enforcement: active
+    conditions:
+      ref_name:
+        include:
+          - "~DEFAULT_BRANCH"
+        exclude: []
+    rules:
+      - type: deletion          # Block branch deletion
+      - type: non_fast_forward  # Block force-push
+      - type: required_linear_history
+      - type: required_signatures
+      - type: required_status_checks
+        parameters:
+          strict_required_status_checks_policy: false
+          required_status_checks:
+            # NOTE: The Integration ID for GitHub Actions is `15368`
+            - integration_id: 15368
+              context: test (ubuntu-22.04, 1.19)
+            - integration_id: 15368
+              context: test (ubuntu-22.04, 1.20)
+            - integration_id: 15368
+              context: test (ubuntu-22.04, 1.21)
+            - integration_id: 15368
+              context: test (ubuntu-22.04, 1.22)
+            - integration_id: 15368
+              context: test (ubuntu-22.04, 1.23)
