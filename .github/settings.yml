@@ -14,6 +14,12 @@ repository:
   allow_squash_merge: true
   allow_rebase_merge: false
 
+  # Allow auto-merge workflows (e.g. Dependabot)
+  allow_auto_merge: true
+
+  # Ensure merged branches are deleted
+  delete_branch_on_merge: true
+
   # Enable vulnerability alerts and fixes
   enable_automated_security_fixes: true
   enable_vulnerability_alerts: true
