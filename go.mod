@@ -3,7 +3,7 @@ module github.com/loozhengyuan/blt
 go 1.17
 
 require (
-	github.com/goccy/go-yaml v1.13.2
+	github.com/goccy/go-yaml v1.13.6
 	github.com/loozhengyuan/grench v0.7.0
 	github.com/spf13/cobra v1.8.1
 )
