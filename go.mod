@@ -5,7 +5,7 @@ go 1.21.0
 toolchain go1.23.3
 
 require (
-	github.com/goccy/go-yaml v1.15.7
+	github.com/goccy/go-yaml v1.15.9
 	github.com/loozhengyuan/grench v0.7.0
 	github.com/spf13/cobra v1.8.1
 )
