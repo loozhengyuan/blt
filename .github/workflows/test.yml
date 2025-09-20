@@ -26,7 +26,7 @@ jobs:
           # Enable them only if they are strictly required.
           # - "windows-2022"
           # - "macos-14"
-          - "ubuntu-22.04"
+          - "ubuntu-24.04"
         go:
           - "1.21"
           - "1.22"
